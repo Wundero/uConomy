@@ -1,6 +1,9 @@
 package com.brysonm.uconomy;
 
 import com.brysonm.uconomy.commands.*;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.ServicesManager;
+import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,8 +15,17 @@ public class uConomy extends JavaPlugin {
     private static YMLFactory.YML balancesYML;
 
     private static YMLFactory.YML salesYML;
+    
+    private static boolean vaultExists;
 
     public void onEnable() {
+        
+        if(getServer().getPluginManager().isPluginEnabled("Vault")) {
+            vaultExists = true;
+        } else {
+            vaultExists = false;
+        }
+        
         saveDefaultConfig();
         instance = this;
         balancesYML = YMLFactory.buildYML("balances", this);
@@ -36,6 +48,20 @@ public class uConomy extends JavaPlugin {
         }
 
         SaleUtils.loadSales();
+        
+        registerEconomy();
+    }
+    
+    private boolean registerEconomy() {
+        
+        if(vaultExists) {
+            final ServicesManager sm = getServer().getServicesManager();
+            //TODO vault connection class and register. Implement the Economy class and override the methods needed to make proper economy.
+            //Make sure to implement other things in class and use existing eco
+        } else {
+            //Have boolean with usingVault - could be useful later depending on features needed.
+        }
+        
     }
 
     public void onDisable() {
